@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 const errorHandler = require("./middlewares/errorHandler");
 const notFound = require("./middlewares/notFound");
@@ -10,6 +11,9 @@ const app = express();
 
 app.use(express.static("public"));
 app.use(express.json());
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173"
+}))
 
 const port = process.env.PORT || 3333;
 

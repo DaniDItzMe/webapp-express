@@ -41,7 +41,7 @@ function show(req, res){
     `;
 
     const reviewsSQL = `
-        SELECT name,vote, text
+        SELECT id,name,vote, text
         FROM reviews
         WHERE movie_id = ?;
     `
