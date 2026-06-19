@@ -2,7 +2,6 @@ const connection = require("../data/db");
 
 function index (req,res){
 
-    console.log("INDEX ROUTER" + req.imagePath);
 
     const sql = "SELECT * FROM movies";
 
@@ -89,4 +88,24 @@ function show(req, res){
     
 }
 
-module.exports = {index, show};
+function storeReview(req, res){
+    
+    const {movieId, name, text, vote} = req.body;
+
+    const sql = "INSERT INTO reviews (movie_id, name, text, vote) VALUES (?, ?, ?, ?)";
+
+    connection.query(sql, [movieId, name, text, vote], (err, results)=>{
+        if(err){
+            return res.status(500).json({
+                error: err.message,
+                message: "Query failed"
+            })
+        }
+        res.status(201).json({
+            message: "Recensione aggiunta con successo",
+            reviewId: results.insertId
+        });
+    })
+}
+
+module.exports = {index, show, storeReview};
